@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TradeCard · Service update</title>
+<meta name="description" content="Order processing delay on TradeCard: what happened, and confirmation that all orders are now processing at normal speed.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#3785FA;--navy:#0B1F4D;--lime:#CCFF00;--ice:#D7E6FF;--ink:#0B1F4D;--ink2:#3A4D75;--bg:#EEF4FF;--good:#13A36B}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px calc(32px + env(safe-area-inset-bottom))}
+.hero{position:relative;background:var(--blue);color:#fff;padding:calc(24px + env(safe-area-inset-top)) 16px 30px;border-bottom:4px solid var(--navy);overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.17) 1.6px,transparent 1.8px);background-size:22px 22px}
+.hin{position:relative;max-width:520px;margin:0 auto}
+.tag{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--navy);border:3px solid var(--navy);border-radius:10px;padding:3px 10px;font-weight:900;font-size:12px;letter-spacing:1.5px;box-shadow:3px 4px 0 var(--navy)}
+.tag svg{width:14px;height:14px;color:var(--blue)}
+h1{margin-top:14px;font-weight:900;font-size:clamp(30px,9vw,40px);line-height:1.02;letter-spacing:-1.2px;text-transform:uppercase}
+h1 span{color:var(--lime);text-shadow:4px 4px 0 var(--navy)}
+.status{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);border-radius:999px;padding:6px 14px 6px 8px;font-weight:800;font-size:14px}
+.status i{width:22px;height:22px;border-radius:50%;background:var(--good);color:#fff;display:flex;align-items:center;justify-content:center}.status i svg{width:13px;height:13px}
+.upd{margin-top:8px;font-size:12.5px;font-weight:600;color:#E4EEFF}
+section{margin-top:26px}
+.eb{font-size:12px;font-weight:900;letter-spacing:1.8px;color:var(--blue)}
+h2{font-size:21px;font-weight:900;letter-spacing:-.4px;line-height:1.2;margin-top:4px}
+p.t{margin-top:8px;font-size:15px;font-weight:500;color:var(--ink2)}
+p.t b{color:var(--ink)}
+.card{margin-top:12px;background:#fff;border:3px solid var(--navy);border-radius:18px;padding:14px 16px;box-shadow:4px 5px 0 var(--navy)}
+.sum{display:flex;flex-direction:column;gap:10px}
+.sum div{display:flex;gap:12px;align-items:flex-start;font-size:15px;font-weight:700}
+.sum i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--good);color:#fff;display:flex;align-items:center;justify-content:center}.sum i svg{width:16px;height:16px}
+.sum span small{display:block;font-size:13px;font-weight:600;color:var(--ink2)}
+.tl{list-style:none;margin-top:12px;position:relative}
+.tl li{position:relative;display:flex;gap:14px;padding-bottom:18px}
+.tl li:not(:last-child):before{content:"";position:absolute;left:13px;top:30px;bottom:0;width:3px;background:var(--blue)}
+.tl .d{flex:none;width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--blue);display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.tl .d svg{width:14px;height:14px}
+.tl li.bad .d{border-color:#E8902A;color:#E8902A}
+.tl li.ok .d{background:var(--good);border-color:var(--good);color:#fff}
+.tl b{display:block;font-size:15.5px;font-weight:800}
+.tl small{display:block;font-size:13px;font-weight:700;color:var(--blue)}
+.tl span{display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-top:2px}
+.safe{margin-top:12px;background:var(--navy);color:#fff;border-radius:18px;padding:16px;display:flex;gap:12px;align-items:flex-start}
+.safe i{flex:none;width:40px;height:40px;border-radius:12px;background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center}.safe i svg{width:22px;height:22px}
+.safe b{display:block;font-size:16px;font-weight:900}.safe span{display:block;font-size:14px;font-weight:500;color:#C9D6F2;margin-top:2px}
+.do{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:10px}
+.do li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:3px solid var(--navy);border-radius:16px;padding:12px 14px;box-shadow:4px 5px 0 var(--navy)}
+.do .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--navy);color:var(--lime);font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
+.do b{display:block;font-size:15px;font-weight:800}.do span{display:block;font-size:14px;font-weight:500;color:var(--ink2)}
+.sorry{margin-top:26px;background:var(--lime);border:3px solid var(--navy);border-radius:18px;padding:16px;box-shadow:4px 5px 0 var(--navy)}
+.sorry b{display:block;font-size:17px;font-weight:900}.sorry p{font-size:14.5px;font-weight:600;margin-top:4px}
+footer{text-align:center;font-size:12.5px;color:var(--ink2);margin-top:24px}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hin">
+  <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>SERVICE UPDATE</span>
+  <h1>Sorry for the<br><span>delay in orders</span></h1>
+  <div class="status"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Resolved · orders at normal speed</div>
+  <p class="upd" id="upd"></p>
+</div></header>
+
+<main class="wrap">
+  <section>
+    <div class="eb">IN SHORT</div>
+    <h2>Everything is back to normal</h2>
+    <div class="card sum">
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span>The technical error is fixed<small>It was resolved by 6:00 PM (Nigeria time).</small></span></div>
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span>All queued orders are completed<small>No orders were lost.</small></span></div>
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span>Your funds are safe<small>No money was affected.</small></span></div>
+      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span>Orders now process at normal speed<small>Trade as usual.</small></span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eb">WHAT HAPPENED</div>
+    <h2>A short technical error slowed order processing</h2>
+    <p class="t" id="what"></p>
+    <p class="t">Your orders were received and held safely in a queue while the error was being fixed. Once it was resolved, we processed every queued order. Because many orders were waiting at the same time, some took longer than our usual processing time.</p>
+  </section>
+
+  <section>
+    <div class="eb">TIMELINE</div>
+    <h2 id="tlTitle">What happened, step by step</h2>
+    <ol class="tl">
+      <li class="bad"><div class="d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 7v6M12 17h.01"/></svg></div><div><small id="t1"></small><b>Technical error starts</b><span>New orders are received and queued, but processing pauses.</span></div></li>
+      <li><div class="d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></div><div><small id="t2"></small><b>Error fixed</b><span>Our team resolves the issue, and processing restarts.</span></div></li>
+      <li><div class="d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><div><small id="t3"></small><b>Queued orders processed</b><span>All waiting orders are completed.</span></div></li>
+      <li class="ok"><div class="d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div><small>Now</small><b>Back to normal speed</b><span>New orders are processed at our usual speed.</span></div></li>
+    </ol>
+  </section>
+
+  <div class="safe"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></i><div><b>No orders or funds were lost</b><span>Every order placed during this time has been completed. Your balance and your payouts were not affected.</span></div></div>
+
+  <section>
+    <div class="eb">WHAT YOU NEED TO DO</div>
+    <h2>Nothing, in most cases</h2>
+    <ol class="do">
+      <li><div class="n">1</div><div><b>Check your History</b><span>Orders placed during the delay should now show as completed.</span></div></li>
+      <li><div class="n">2</div><div><b>Still see a pending order?</b><span>Chat with support in the app and share your order ID. We'll check it right away.</span></div></li>
+      <li><div class="n">3</div><div><b>Keep trading as usual</b><span>Orders are processing at normal speed again.</span></div></li>
+    </ol>
+  </section>
+
+  <div class="sorry"><b>We're sorry</b><p>We know waiting for your money is stressful, and we apologise for the delay. Thank you for your patience and for trading with TradeCard.</p></div>
+  <footer>© TradeCard · Service update</footer>
+</main>
+
+<script>
+/* ===================== EDIT BEFORE PUBLISHING =====================
+   date     : the day the issue happened
+   start/end: when the error started and was fixed (WAT)
+   cleared  : when all queued orders were completed (WAT)
+   updated  : when this notice was last updated                         */
+var CONFIG = {
+  date:    "4 November 2026",
+  start:   "4:00 PM",
+  end:     "6:00 PM",
+  cleared: "",   // optional, e.g. "7:30 PM"; leave "" if unknown
+  updated: "5 November 2026"
+};
+/* ================================================================== */
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  $('what').innerHTML='On <b>'+CONFIG.date+'</b>, between <b>'+CONFIG.start+' and '+CONFIG.end+' WAT</b>, a technical error affected our order-processing system. Our team fixed it by '+CONFIG.end+' WAT.';
+  $('tlTitle').textContent=CONFIG.date;
+  $('t1').textContent=CONFIG.start+' WAT';
+  $('t2').textContent=CONFIG.end+' WAT';
+  $('t3').textContent=CONFIG.cleared?'By '+CONFIG.cleared+' WAT':'After '+CONFIG.end+' WAT';
+  $('upd').textContent='Last updated: '+CONFIG.updated;
+})();
+</script>
+</body>
+</html>
